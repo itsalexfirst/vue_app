@@ -1,7 +1,7 @@
 <template lang="pug">
   #navbar
-    img(src="/assets/logo.png" height="100")
     p {{ message }}
+    img(src="/assets/logo.png" height="100")
     p User: {{ current_user.email }}
     a(rel="nofollow" data-method="delete" :href="logout_path") Log out
 </template>
@@ -17,11 +17,11 @@ export default {
   props: {
     current_user: {
       type: Object,
-      required: false
+      required: true
     },
     logout_path: {
       type: String,
-      required: false
+      required: true
     }
   }
 }

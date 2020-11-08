@@ -5,15 +5,18 @@
     template(v-else-if="error")
       p Error :-(
     template(v-else)
-      navbar(:current_user="current_user", :logout_path="logout_path")
       p {{ message }}
+      navbar(:current_user="current_user", :logout_path="logout_path")
+      dashboard
 </template>
 
 <script>
 import axios from 'axios'
 import Navbar from '../shared/Navbar/Navbar.vue'
+import Dashboard from './Dashboard/Dashboard.vue'
 
 export default {
+  name: 'Staff',
   data: function () {
     return {
       message: "Hello staff",
@@ -37,11 +40,14 @@ export default {
           console.log(data)
           this.current_user = data.current_user
         })
+        .catch(() => (this.error = true))
+        .finally(() => (this.loading = false))
     }
   },
 
   components: {
-    Navbar
+    Navbar,
+    Dashboard
   }
 }
 </script>
