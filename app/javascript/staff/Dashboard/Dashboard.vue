@@ -1,6 +1,5 @@
 <template lang="pug">
   #dashboard
-    p {{ message }}
     #new-client
       form(v-on:submit.prevent="onSubmit")
         input(v-model="fullname" placeholder="full name")
@@ -36,7 +35,6 @@ export default {
         }
       })
       .then(({ data }) => {
-        console.log(data)
         this.clients.push(data)
       })
       .catch(() => (this.error = true))

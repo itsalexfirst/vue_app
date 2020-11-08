@@ -1,8 +1,7 @@
 <template lang="pug">
   #navbar
-    p {{ message }}
     img(src="/assets/logo.png" height="100")
-    p User: {{ current_user.email }}
+    div User: {{ current_user.email }}
     a(rel="nofollow" data-method="delete" :href="logout_path") Log out
 </template>
 

@@ -5,7 +5,6 @@
     template(v-else-if="error")
       p Error :-(
     template(v-else)
-      p {{ message }}
       navbar(:current_user="current_user", :logout_path="logout_path")
       dashboard(:clients="clients")
 </template>
@@ -38,7 +37,6 @@ export default {
       this.loading = true
       axios.get('/staff/dashboard')
         .then(({ data }) => {
-          console.log(data)
           this.current_user = data.current_user
           this.clients = data.clients
         })

@@ -1,9 +1,8 @@
 <template lang="pug">
-  div
-    p {{ client.id }}
-    p {{ client.fullname }}
-    p {{ client.phone}}
-    p {{ client.email}}
+  #grid
+    div {{ client.fullname }}
+    div {{ client.phone}}
+    div {{ client.email}}
 
 </template>
 
@@ -28,6 +27,18 @@ export default {
 <style scoped>
 p {
   font-size: 2em;
+  text-align: center;
+}
+#grid {
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 2vw;
+  }
+#grid > div {
+  font-size: 2vw;
+  padding: .1em;
+  background: white;
   text-align: center;
 }
 </style>
