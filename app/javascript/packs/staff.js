@@ -1,13 +1,13 @@
-console.log('staff')
+// data-method="delete" won`t work without it
+require("@rails/ujs").start()
 
 import Vue from 'vue'
-import App from '../app.vue'
+import App from '../staff/Staff.vue'
+
 
 document.addEventListener('DOMContentLoaded', () => {
-  const app = new Vue({
+  new Vue({
+    el: '#app',
     render: h => h(App)
   }).$mount()
-  document.body.appendChild(app.$el)
-
-  console.log(app)
 })
