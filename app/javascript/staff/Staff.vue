@@ -7,7 +7,7 @@
     template(v-else)
       p {{ message }}
       navbar(:current_user="current_user", :logout_path="logout_path")
-      dashboard
+      dashboard(:clients="clients")
 </template>
 
 <script>
@@ -22,6 +22,7 @@ export default {
       message: "Hello staff",
       current_user: {},
       logout_path: "/staffs/sign_out",
+      clients: [],
       loading: true,
       error: false
     }
@@ -39,6 +40,7 @@ export default {
         .then(({ data }) => {
           console.log(data)
           this.current_user = data.current_user
+          this.clients = data.clients
         })
         .catch(() => (this.error = true))
         .finally(() => (this.loading = false))

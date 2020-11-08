@@ -7,9 +7,12 @@
         input(v-model="phone" placeholder="phone")
         input(v-model="email" placeholder="email")
         button(v-model="submit") Submit
+    div(v-for="client in clients" :key="client.id")
+      client(:client="client")
 </template>
 
 <script>
+import Client from './Client/Client.vue'
 import axios from 'axios'
 
 let token = document.getElementsByName('csrf-token')[0].getAttribute('content')
@@ -34,10 +37,22 @@ export default {
       })
       .then(({ data }) => {
         console.log(data)
+        this.clients.push(data)
       })
       .catch(() => (this.error = true))
       .finally(() => (this.loading = false))
     }
+  },
+
+  props: {
+    clients: {
+      type: Array,
+      required: true
+    }
+  },
+
+  components: {
+    Client
   }
 }
 </script>
