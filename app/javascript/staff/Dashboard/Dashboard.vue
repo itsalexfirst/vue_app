@@ -1,44 +1,50 @@
 <template lang="pug">
   #dashboard
     #new-client
+      #errors(v-if="errors.length")
+        div(v-for="error in errors") {{ error }}
       form(v-on:submit.prevent="onSubmit")
         input(v-model="fullname" placeholder="full name")
         input(v-model="phone" placeholder="phone")
         input(v-model="email" placeholder="email")
-        button(v-model="submit") Submit
+        button Submit
     div(v-for="client in clients" :key="client.id")
       client(:client="client")
 </template>
 
 <script>
 import Client from './Client/Client.vue'
-import axios from 'axios'
-
-let token = document.getElementsByName('csrf-token')[0].getAttribute('content')
-axios.defaults.headers.common['X-CSRF-Token'] = token
-axios.defaults.headers.common['Accept'] = 'application/json'
 
 export default {
   name: 'Dashboard',
   data: function () {
     return {
-      message: "Dashboard"
+      message: "Dashboard",
+      errors:[],
+      fullname: "",
+      phone: "",
+      email: ""
     }
   },
   methods: {
     onSubmit: function () {
-      axios.post('/staff/clients', {
-        client: {
+      this.errors = [];
+      if (!this.fullname.match(/\w{5,}/)) {
+        this.errors.push("Enter name")
+      }
+      if (!this.phone.match(/\d+/)) {
+        this.errors.push("Enter phone")
+      }
+      if (!this.email.match(/^\S+@\S+\.\S+$/)) {
+        this.errors.push("invalid email")
+      }
+      if (!this.errors.length) {
+         this.$emit ('createClient', {
           fullname: this.fullname,
           phone: this.phone,
           email: this.email
-        }
-      })
-      .then(({ data }) => {
-        this.clients.push(data)
-      })
-      .catch(() => (this.error = true))
-      .finally(() => (this.loading = false))
+        })
+      }
     }
   },
 
