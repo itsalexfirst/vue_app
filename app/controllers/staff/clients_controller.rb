@@ -3,6 +3,8 @@ class Staff::ClientsController < ApplicationController
 
   def index
     @clients = Client.all
+    #TODO query builder
+    render json: { clients: @clients }
   end
 
   def show; end
