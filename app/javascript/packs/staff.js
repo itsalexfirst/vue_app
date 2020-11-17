@@ -4,6 +4,8 @@ require("@rails/ujs").start()
 import Vue from 'vue'
 import App from '../staff/Staff.vue'
 import '../staff/api'
+import '../staff/quasar'
+
 
 
 document.addEventListener('DOMContentLoaded', () => {
