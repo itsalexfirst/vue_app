@@ -1,14 +1,21 @@
 <template lang="pug">
   #dashboard
-    #new-client
-      #errors(v-if="errors.length")
-        div(v-for="error in errors") {{ error }}
-      form(v-on:submit.prevent="onSubmit")
-        input(v-model="fullname" placeholder="full name")
-        input(v-model="phone" placeholder="phone")
-        input(v-model="email" placeholder="email")
-        button Submit
-    clients(:clients="clients" @deleteClient="deleteClient")
+    clients(:clients="clients" @deleteClient="deleteClient" @addClient="confirm = true")
+
+    q-dialog(v-model='confirm', persistent)
+      q-card
+        q-card-section.row.items-center
+          span.q-ml-sm Add Client
+          #new-client
+            #errors(v-if="errors.length")
+              div(v-for="error in errors") {{ error }}
+            form(v-on:submit.prevent="onSubmit")
+              input(v-model="fullname" placeholder="full name")
+              input(v-model="phone" placeholder="phone")
+              input(v-model="email" placeholder="email")
+              button Submit
+        q-card-actions(align='right')
+          q-btn(flat, label='Cancel', color='primary', v-close-popup)
 </template>
 
 <script>
@@ -20,6 +27,8 @@ export default {
     return {
       message: "Dashboard",
       errors:[],
+
+      confirm: false,
 
       fullname: "",
       phone: "",

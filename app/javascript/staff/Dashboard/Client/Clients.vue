@@ -8,7 +8,7 @@
       :selected.sync="selected"
       )
     q-btn-group(push)
-      q-btn(push label="New" icon="add")
+      q-btn(push label="New" icon="add" v-on:click="addClient")
       q-btn(push v-if="selected.length" label="Edit" icon="edit")
       q-btn(push v-if="selected.length" label="Delete" icon="delete" v-on:click="deleteClient")
 
@@ -36,6 +36,9 @@ export default {
       this.$emit ('deleteClient', {
           id: client.id
         })
+    },
+    addClient: function () {
+      this.$emit ('addClient')
     }
   },
 
