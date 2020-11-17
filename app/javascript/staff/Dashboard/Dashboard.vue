@@ -8,12 +8,11 @@
         input(v-model="phone" placeholder="phone")
         input(v-model="email" placeholder="email")
         button Submit
-    div(v-for="client in clients" :key="client.id")
-      client(:client="client")
+    clients(:clients="clients")
 </template>
 
 <script>
-import Client from './Client/Client.vue'
+import Clients from './Client/Clients.vue'
 
 export default {
   name: 'Dashboard',
@@ -56,7 +55,7 @@ export default {
   },
 
   components: {
-    Client
+    Clients
   }
 }
 </script>
