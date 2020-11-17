@@ -11,7 +11,8 @@ const api = {
   },
   clients: {
     index: () => axios.get('/staff/clients'),
-    create: (client) => axios.post('/staff/clients', { client })
+    create: (client) => axios.post('/staff/clients', { client }),
+    delete: (client) => axios.delete(`/staff/clients/${client.id}`, { client })
   }
 }
 

@@ -8,7 +8,7 @@
         input(v-model="phone" placeholder="phone")
         input(v-model="email" placeholder="email")
         button Submit
-    clients(:clients="clients")
+    clients(:clients="clients" @deleteClient="deleteClient")
 </template>
 
 <script>
@@ -20,6 +20,7 @@ export default {
     return {
       message: "Dashboard",
       errors:[],
+
       fullname: "",
       phone: "",
       email: ""
@@ -44,6 +45,15 @@ export default {
           email: this.email
         })
       }
+    },
+    deleteClient (client) {
+      console.log(client)
+      this.$api.clients.delete(client)
+      .then(() => {
+        this.clients.pop(client)
+      })
+      .catch(() => (this.error = true))
+      .finally(() => (this.loading = false))
     }
   },
 
