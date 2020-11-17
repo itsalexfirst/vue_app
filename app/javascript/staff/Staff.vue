@@ -1,10 +1,15 @@
 <template lang="pug">
   #app
-    template(v-if="loading")
-      p Loading ...
-    template(v-else)
-      navbar(:current_user="current_user", :logout_path="logout_path")
-      dashboard(:clients="clients" @createClient="createClient")
+    q-layout(view="hHh lpR fFf")
+      q-header(elevated class="bg-primary text-white" height-hint="98")
+        q-toolbar
+          q-btn(dense, flat, round, icon='menu', @click='drawerLeft = !drawerLeft')
+          q-toolbar-title
+            navbar(:current_user="current_user", :logout_path="logout_path")
+      q-drawer(show-if-above, v-model='drawerLeft', side='left', bordered)
+        p drawer_content
+      q-page-container
+        dashboard(:clients="clients" @createClient="createClient")
 </template>
 
 <script>
@@ -21,7 +26,8 @@ export default {
       logout_path: "/staffs/sign_out",
       clients: [],
       loading: true,
-      error: false
+      error: false,
+      drawerLeft: false
     }
   },
 
