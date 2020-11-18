@@ -5,12 +5,12 @@
       :data="clients",
       :columns="columns",
       selection="single",
-      :selected.sync="selected"
+      :selected.sync="selected_client"
       )
     q-btn-group(push)
       q-btn(push label="New" icon="add" v-on:click="addClient")
-      q-btn(push v-if="selected.length" label="Edit" icon="edit")
-      q-btn(push v-if="selected.length" label="Delete" icon="delete" v-on:click="deleteClient")
+      q-btn(push v-if="selected_client.length" label="Edit" icon="edit")
+      q-btn(push v-if="selected_client.length" label="Delete" icon="delete" v-on:click="deleteClient")
 
 </template>
 
@@ -25,17 +25,15 @@ export default {
         { name: 'email', field: 'email', required: true, label: 'E-Mail', align: 'left' }
       ],
       selected: [],
+      selected_client: [],
       message: "Clients"
     }
   },
 
   methods: {
     deleteClient: function () {
-      let client = this.selected[0];
-
-      this.$emit ('deleteClient', {
-          id: client.id
-        })
+      let client = this.selected_client[0];
+      this.$emit ('deleteClient', client)
     },
     addClient: function () {
       this.$emit ('addClient')
@@ -54,18 +52,6 @@ export default {
 <style scoped>
 p {
   font-size: 2em;
-  text-align: center;
-}
-#grid {
-  display: grid;
-  grid-template-rows: 1fr 1fr 1fr;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-gap: 2vw;
-  }
-#grid > div {
-  font-size: 2vw;
-  padding: .1em;
-  background: white;
   text-align: center;
 }
 </style>

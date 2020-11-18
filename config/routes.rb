@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   namespace :staff do
     resources :dashboard, only: %i[index]
     resources :clients, shallow: true
+    resources :organizations, shallow: true
   end
 
   namespace :client do

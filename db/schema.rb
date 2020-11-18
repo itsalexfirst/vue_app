@@ -40,9 +40,9 @@ ActiveRecord::Schema.define(version: 2020_11_17_204417) do
 
   create_table "organizations", force: :cascade do |t|
     t.string "title"
-    t.string "type"
-    t.integer "inn"
-    t.integer "ogrn"
+    t.string "category"
+    t.string "inn"
+    t.string "ogrn"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

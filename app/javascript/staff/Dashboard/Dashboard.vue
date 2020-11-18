@@ -1,25 +1,44 @@
 <template lang="pug">
   #dashboard
-    clients(:clients="clients" @deleteClient="deleteClient" @addClient="confirm = true")
+    clients(:clients="clients" @deleteClient="deleteClient" @addClient="confirmAddClient = true")
+    organizations(:organizations="organizations" @deleteOrganization="deleteOrganization" @addOrganization="confirmAddOrganization = true")
 
-    q-dialog(v-model='confirm', persistent)
+
+    q-dialog(v-model='confirmAddClient', persistent)
       q-card
         q-card-section.row.items-center
           span.q-ml-sm Add Client
           #new-client
             #errors(v-if="errors.length")
               div(v-for="error in errors") {{ error }}
-            form(v-on:submit.prevent="onSubmit")
+            form(v-on:submit.prevent="onSubmitClient")
               input(v-model="fullname" placeholder="full name")
               input(v-model="phone" placeholder="phone")
               input(v-model="email" placeholder="email")
               button Submit
         q-card-actions(align='right')
           q-btn(flat, label='Cancel', color='primary', v-close-popup)
+
+    q-dialog(v-model='confirmAddOrganization', persistent)
+      q-card
+        q-card-section.row.items-center
+          span.q-ml-sm Add Organization
+          #new-organization
+            #errors(v-if="errors.length")
+              div(v-for="error in errors") {{ error }}
+            form(v-on:submit.prevent="onSubmitOrganization")
+              input(v-model="title" placeholder="title")
+              input(v-model="category" placeholder="type")
+              input(v-model="inn" placeholder="inn")
+              input(v-model="ogrn" placeholder="ogrn")
+              button Submit
+        q-card-actions(align='right')
+          q-btn(flat, label='Cancel', color='primary', v-close-popup)
 </template>
 
 <script>
-import Clients from './Client/Clients.vue'
+import Clients from './components/Clients.vue'
+import Organizations from './components/Organizations.vue'
 
 export default {
   name: 'Dashboard',
@@ -28,15 +47,20 @@ export default {
       message: "Dashboard",
       errors:[],
 
-      confirm: false,
-
+      confirmAddClient: false,
       fullname: "",
       phone: "",
-      email: ""
+      email: "",
+
+      confirmAddOrganization: false,
+      title: "",
+      category: "",
+      inn: "",
+      ogrn: ""
     }
   },
   methods: {
-    onSubmit: function () {
+    onSubmitClient: function () {
       this.errors = [];
       if (!this.fullname.match(/\w{5,}/)) {
         this.errors.push("Enter name")
@@ -55,11 +79,34 @@ export default {
         })
       }
     },
+    onSubmitOrganization: function () {
+      this.errors = [];
+      if (!this.title.match(/\w{5,}/)) {
+        this.errors.push("Enter title")
+      }
+      if (!this.inn.match(/\d+/)) {
+        this.errors.push("Enter INN")
+      }
+      if (!this.ogrn.match(/\d+/)) {
+        this.errors.push("Enter OGRN")
+      }
+      if (!this.category.match(/\w{2,}/)) {
+        this.errors.push("Enter type")
+      }
+      if (!this.errors.length) {
+         this.$emit ('createOrganization', {
+          title: this.title,
+          category: this.category,
+          inn: this.inn,
+          ogrn: this.ogrn
+        })
+      }
+    },
     deleteClient (client) {
-      console.log(client)
       this.$api.clients.delete(client)
       .then(() => {
-        this.clients.pop(client)
+        let index = this.clients.findIndex(x => x.id === client.id)
+        this.clients.splice(index, 1)
       })
       .catch(() => (this.error = true))
       .finally(() => (this.loading = false))
@@ -70,11 +117,16 @@ export default {
     clients: {
       type: Array,
       required: true
+    },
+    organizations: {
+      type: Array,
+      required: true
     }
   },
 
   components: {
-    Clients
+    Clients,
+    Organizations
   }
 }
 </script>

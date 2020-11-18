@@ -9,7 +9,8 @@
       q-drawer(show-if-above, v-model='drawerLeft', side='left', bordered)
         p drawer_content
       q-page-container
-        dashboard(:clients="clients" @createClient="createClient")
+        dashboard(:clients="clients", @createClient="createClient",
+          :organizations="organizations", @createOrganization="createOrganization")
 </template>
 
 <script>
@@ -25,6 +26,7 @@ export default {
       current_user: {},
       logout_path: "/staffs/sign_out",
       clients: [],
+      organizations: [],
       loading: true,
       error: false,
       drawerLeft: false
@@ -43,6 +45,7 @@ export default {
         .then(({ data }) => {
           this.current_user = data.current_user
           this.clients = data.clients
+          this.organizations = data.organizations
         })
         .catch(() => (this.error = true))
         .finally(() => (this.loading = false))
@@ -51,6 +54,14 @@ export default {
       this.$api.clients.create(client)
       .then(({ data }) => {
         this.clients.push(data)
+      })
+      .catch(() => (this.error = true))
+      .finally(() => (this.loading = false))
+    },
+    createOrganization (organization) {
+      this.$api.organizations.create(organization)
+      .then(({ data }) => {
+        this.organizations.push(data)
       })
       .catch(() => (this.error = true))
       .finally(() => (this.loading = false))
