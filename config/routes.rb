@@ -12,6 +12,6 @@ Rails.application.routes.draw do
   end
 
   namespace :client do
-    resources :index
+    resources :organizations, only: %i[index]
   end
 end
