@@ -1,6 +1,6 @@
 class Client < ApplicationRecord
   include Authenticatable
 
-  has_many :client_organizations, dependent: :destroy
-  has_many :organizations, through: :client_organizations
+  has_many :clients_organizations
+  has_many :organizations, through: :clients_organizations
 end
