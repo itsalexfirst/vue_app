@@ -9,7 +9,7 @@
       )
     q-btn-group(push)
       q-btn(push label="New" icon="add" v-on:click="addClient")
-      q-btn(push v-if="selected_client.length" label="Edit" icon="edit")
+      q-btn(push v-if="selected_client.length" label="Edit" icon="edit" v-on:click="updateClient")
       q-btn(push v-if="selected_client.length" label="Delete" icon="delete" v-on:click="deleteClient")
 
 </template>
@@ -37,7 +37,11 @@ export default {
     },
     addClient: function () {
       this.$emit ('addClient')
-    }
+    },
+    updateClient: function () {
+      let client = this.selected_client[0];
+      this.$emit ('updateClient', client)
+    },
   },
 
   props: {

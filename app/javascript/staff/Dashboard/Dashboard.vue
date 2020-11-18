@@ -1,6 +1,6 @@
 <template lang="pug">
   #dashboard
-    clients(:clients="clients" @deleteClient="deleteClient" @addClient="confirmAddClient = true")
+    clients(:clients="clients" @deleteClient="deleteClient" @addClient="confirmAddClient = true" @updateClient="updateClient")
     organizations(:organizations="organizations" @deleteOrganization="deleteOrganization" @addOrganization="confirmAddOrganization = true")
 
 
@@ -15,6 +15,21 @@
               input(v-model="fullname" placeholder="full name")
               input(v-model="phone" placeholder="phone")
               input(v-model="email" placeholder="email")
+              button Submit
+        q-card-actions(align='right')
+          q-btn(flat, label='Cancel', color='primary', v-close-popup)
+
+    q-dialog(v-model='confirmUpdateClient', persistent)
+      q-card
+        q-card-section.row.items-center
+          span.q-ml-sm Edit Client
+          #update-client
+            #errors(v-if="errors.length")
+              div(v-for="error in errors") {{ error }}
+            form(v-on:submit.prevent="onSaveClient")
+              input(v-model="editedClient.fullname" placeholder="full name")
+              input(v-model="editedClient.phone" placeholder="phone")
+              input(v-model="editedClient.email" placeholder="email")
               button Submit
         q-card-actions(align='right')
           q-btn(flat, label='Cancel', color='primary', v-close-popup)
@@ -48,9 +63,16 @@ export default {
       errors:[],
 
       confirmAddClient: false,
+      confirmUpdateClient: false,
       fullname: "",
       phone: "",
       email: "",
+      editedIndex: -1,
+      editedClient: {
+        fullname: "",
+        phone: "",
+        email: ""
+      },
 
       confirmAddOrganization: false,
       title: "",
@@ -110,8 +132,25 @@ export default {
       })
       .catch(() => (this.error = true))
       .finally(() => (this.loading = false))
+    },
+    updateClient (client) {
+      this.editedIndex =this.clients.findIndex(x => x.id === client.id)
+      this.editedClient = Object.assign({}, client)
+      this.confirmUpdateClient = true
+    },
+    onSaveClient () {
+      let client = Object.assign({}, this.editedClient)
+      this.$api.clients.update(client)
+      .then(({ data }) => {
+        this.clients.splice(this.editedIndex, 1)
+        this.clients.push(data)
+      })
+      .catch(() => (this.error = true))
+      .finally(() => (this.loading = false))
     }
   },
+
+
 
   props: {
     clients: {

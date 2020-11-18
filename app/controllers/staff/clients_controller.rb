@@ -28,7 +28,7 @@ class Staff::ClientsController < ApplicationController
 
   def update
     if @client.update(client_params)
-      render json: @client, status: :updated
+      render json: @client, status: :ok
     else
       render json: { errors: @client.errors.full_messages }, status: :unprocessable_entity
     end
