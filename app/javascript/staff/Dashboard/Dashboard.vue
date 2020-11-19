@@ -7,7 +7,8 @@
             @assignOrganization="assignOrganization")
     organizations(:organizations="organizations"
                   @deleteOrganization="deleteOrganization"
-                  @addOrganization="confirmAddOrganization = true")
+                  @addOrganization="confirmAddOrganization = true"
+                  @updateOrganization="updateOrganization")
 
 
     q-dialog(v-model='confirmAddClient', persistent)
@@ -61,10 +62,26 @@
             #errors(v-if="errors.length")
               div(v-for="error in errors") {{ error }}
             form(v-on:submit.prevent="onSubmitOrganization")
-              input(v-model="title" placeholder="title")
-              input(v-model="category" placeholder="type")
-              input(v-model="inn" placeholder="inn")
-              input(v-model="ogrn" placeholder="ogrn")
+              input(v-model="title" placeholder="Title")
+              input(v-model="category" placeholder="Type")
+              input(v-model="inn" placeholder="INN")
+              input(v-model="ogrn" placeholder="OGRN")
+              button Submit
+        q-card-actions(align='right')
+          q-btn(flat, label='Cancel', color='primary', v-close-popup)
+
+    q-dialog(v-model='confirmUpdateOrganization', persistent)
+      q-card
+        q-card-section.row.items-center
+          span.q-ml-sm Edit Client
+          #update-client
+            #errors(v-if="errors.length")
+              div(v-for="error in errors") {{ error }}
+            form(v-on:submit.prevent="onSaveOrganization")
+              input(v-model="editedOrganization.title" placeholder="Title")
+              input(v-model="editedOrganization.category" placeholder="Type")
+              input(v-model="editedOrganization.inn" placeholder="INN")
+              input(v-model="editedOrganization.ogrn" placeholder="OGRN")
               button Submit
         q-card-actions(align='right')
           q-btn(flat, label='Cancel', color='primary', v-close-popup)
@@ -80,18 +97,22 @@ export default {
     return {
       message: "Dashboard",
       errors:[],
+      editedIndex: -1,
 
       confirmAddClient: false,
-      confirmUpdateClient: false,
       fullname: "",
       phone: "",
       email: "",
-      editedIndex: -1,
+
+      confirmUpdateClient: false,
       editedClient: {
         fullname: "",
         phone: "",
         email: ""
       },
+
+      confirmAssignOrganization: false,
+      assignedOrganization: null,
 
       confirmAddOrganization: false,
       title: "",
@@ -99,8 +120,13 @@ export default {
       inn: "",
       ogrn: "",
 
-      confirmAssignOrganization: false,
-      assignedOrganization: null
+      confirmUpdateOrganization: false,
+      editedOrganization: {
+        title: "",
+        inn: "",
+        ogrn: "",
+        category: ""
+      }
     }
   },
   methods: {
@@ -193,7 +219,22 @@ export default {
       })
       .catch(() => (this.error = true))
       .finally(() => (this.loading = false))
-    }
+    },
+    updateOrganization (organization) {
+      this.editedIndex = this.organizations.findIndex(x => x.id === organization.id)
+      this.editedOrganization = Object.assign({}, organization)
+      this.confirmUpdateOrganization = true
+    },
+    onSaveOrganization () {
+      let organization = Object.assign({}, this.editedOrganization)
+      this.$api.organizations.update(organization)
+      .then(({ data }) => {
+        this.organizations.splice(this.editedIndex, 1)
+        this.organizations.push(data)
+      })
+      .catch(() => (this.error = true))
+      .finally(() => (this.loading = false))
+    },
   },
 
   props: {

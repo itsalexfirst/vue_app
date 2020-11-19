@@ -27,7 +27,7 @@ class Staff::OrganizationsController < ApplicationController
 
   def update
     if @organization.update(organization_params)
-      render json: @organization, status: :updated
+      render json: @organization, status: :ok
     else
       render json: { errors: @organization.errors.full_messages }, status: :unprocessable_entity
     end

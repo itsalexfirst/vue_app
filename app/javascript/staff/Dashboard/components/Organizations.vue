@@ -9,7 +9,7 @@
       )
     q-btn-group(push)
       q-btn(push label="New" icon="add" v-on:click="addOrganization")
-      q-btn(push v-if="selected_organization.length" label="Edit" icon="edit")
+      q-btn(push v-if="selected_organization.length" label="Edit" icon="edit" v-on:click="updateOrganization")
       q-btn(push v-if="selected_organization.length" label="Delete" icon="delete" v-on:click="deleteOrganization")
 
 </template>
@@ -38,7 +38,11 @@ export default {
     },
     addOrganization: function () {
       this.$emit ('addOrganization')
-    }
+    },
+    updateOrganization: function () {
+      let organization = this.selected_organization[0];
+      this.$emit ('updateOrganization', organization)
+    },
   },
 
   props: {
