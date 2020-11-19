@@ -11,6 +11,7 @@
       q-btn(push label="New" icon="add" v-on:click="addClient")
       q-btn(push v-if="selected_client.length" label="Edit" icon="edit" v-on:click="updateClient")
       q-btn(push v-if="selected_client.length" label="Delete" icon="delete" v-on:click="deleteClient")
+      q-btn(push v-if="selected_client.length" label="Add organization" icon="home" v-on:click="assignOrganization")
 
 </template>
 
@@ -41,6 +42,10 @@ export default {
     updateClient: function () {
       let client = this.selected_client[0];
       this.$emit ('updateClient', client)
+    },
+    assignOrganization: function () {
+      let client = this.selected_client[0];
+      this.$emit ('assignOrganization', client)
     },
   },
 

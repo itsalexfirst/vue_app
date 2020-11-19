@@ -1,6 +1,6 @@
 <template lang="pug">
   #dashboard
-    clients(:clients="clients" @deleteClient="deleteClient" @addClient="confirmAddClient = true" @updateClient="updateClient")
+    clients(:clients="clients" @deleteClient="deleteClient" @addClient="confirmAddClient = true" @updateClient="updateClient" @assignOrganization="assignOrganization")
     organizations(:organizations="organizations" @deleteOrganization="deleteOrganization" @addOrganization="confirmAddOrganization = true")
 
 
@@ -30,6 +30,19 @@
               input(v-model="editedClient.fullname" placeholder="full name")
               input(v-model="editedClient.phone" placeholder="phone")
               input(v-model="editedClient.email" placeholder="email")
+              button Submit
+        q-card-actions(align='right')
+          q-btn(flat, label='Cancel', color='primary', v-close-popup)
+
+    q-dialog(v-model='confirmAssignOrganization', persistent)
+      q-card
+        q-card-section.row.items-center
+          span.q-ml-sm Assign Organization
+          #assign-organization
+            #errors(v-if="errors.length")
+              div(v-for="error in errors") {{ error }}
+            form(v-on:submit.prevent="onAssignOrganization")
+              q-select(v-model="assignedOrganization" :options="organizations" option-label="title")
               button Submit
         q-card-actions(align='right')
           q-btn(flat, label='Cancel', color='primary', v-close-popup)
@@ -78,7 +91,10 @@ export default {
       title: "",
       category: "",
       inn: "",
-      ogrn: ""
+      ogrn: "",
+
+      confirmAssignOrganization: false,
+      assignedOrganization: null
     }
   },
   methods: {
@@ -147,7 +163,23 @@ export default {
       })
       .catch(() => (this.error = true))
       .finally(() => (this.loading = false))
-    }
+    },
+    assignOrganization (client) {
+      this.editedIndex =this.clients.findIndex(x => x.id === client.id)
+      this.editedClient = Object.assign({}, client)
+      this.confirmAssignOrganization = true
+    },
+    onAssignOrganization () {
+      let client = Object.assign({}, this.editedClient)
+      let organization = this.assignedOrganization
+      this.$api.clients.add_organization(client, organization)
+      .then(({ data }) => {
+        this.clients.push(organization)
+      })
+      .catch(() => (this.error = true))
+      .finally(() => (this.loading = false))
+    },
+
   },
 
 
