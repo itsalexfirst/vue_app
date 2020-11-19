@@ -1,7 +1,13 @@
 <template lang="pug">
   #dashboard
-    clients(:clients="clients" @deleteClient="deleteClient" @addClient="confirmAddClient = true" @updateClient="updateClient" @assignOrganization="assignOrganization")
-    organizations(:organizations="organizations" @deleteOrganization="deleteOrganization" @addOrganization="confirmAddOrganization = true")
+    clients(:clients="clients"
+            @deleteClient="deleteClient"
+            @addClient="confirmAddClient = true"
+            @updateClient="updateClient"
+            @assignOrganization="assignOrganization")
+    organizations(:organizations="organizations"
+                  @deleteOrganization="deleteOrganization"
+                  @addOrganization="confirmAddOrganization = true")
 
 
     q-dialog(v-model='confirmAddClient', persistent)
@@ -179,10 +185,16 @@ export default {
       .catch(() => (this.error = true))
       .finally(() => (this.loading = false))
     },
-
+    deleteOrganization (organization) {
+      this.$api.organizations.delete(organization)
+      .then(() => {
+        let index = this.organizations.findIndex(x => x.id === organization.id)
+        this.organizations.splice(index, 1)
+      })
+      .catch(() => (this.error = true))
+      .finally(() => (this.loading = false))
+    }
   },
-
-
 
   props: {
     clients: {
