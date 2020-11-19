@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   end
 
   namespace :client do
-    resources :organizations, only: %i[index]
+    resources :dashboard, only: %i[index]
+    resources :organizations, shallow: true, only: %i[index]
   end
 end

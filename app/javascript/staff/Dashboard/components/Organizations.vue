@@ -1,5 +1,5 @@
 <template lang="pug">
-  #crganizations
+  #organizations
     q-table(
       title="Organizations",
       :data="organizations",
