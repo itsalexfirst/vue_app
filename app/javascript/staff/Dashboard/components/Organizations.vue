@@ -1,10 +1,10 @@
 <template lang="pug">
   #organizations
     q-table(
-      title="Organizations",
-      :data="organizations",
-      :columns="columns",
-      selection="single",
+      title="Organizations"
+      :data="organizations"
+      :columns="columns"
+      selection="single"
       :selected.sync="selected_organization"
       )
     q-btn-group(push)

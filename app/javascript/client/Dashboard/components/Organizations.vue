@@ -1,8 +1,8 @@
 <template lang="pug">
   #organizations
     q-table(
-      title="Organizations",
-      :data="organizations",
+      title="Organizations"
+      :data="organizations"
       :columns="columns"
       )
 </template>

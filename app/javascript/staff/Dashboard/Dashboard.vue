@@ -11,7 +11,7 @@
                   @updateOrganization="updateOrganization")
 
 
-    q-dialog(v-model='confirmAddClient', persistent)
+    q-dialog(v-model='confirmAddClient' persistent)
       q-card
         q-card-section.row.items-center
           span.q-ml-sm Add Client
@@ -24,9 +24,9 @@
               input(v-model="email" placeholder="email")
               button Submit
         q-card-actions(align='right')
-          q-btn(flat, label='Cancel', color='primary', v-close-popup)
+          q-btn(flat label='Cancel' color='primary' v-close-popup)
 
-    q-dialog(v-model='confirmUpdateClient', persistent)
+    q-dialog(v-model='confirmUpdateClient' persistent)
       q-card
         q-card-section.row.items-center
           span.q-ml-sm Edit Client
@@ -39,7 +39,7 @@
               input(v-model="editedClient.email" placeholder="email")
               button Submit
         q-card-actions(align='right')
-          q-btn(flat, label='Cancel', color='primary', v-close-popup)
+          q-btn(flat label='Cancel' color='primary' v-close-popup)
 
     q-dialog(v-model='confirmAssignOrganization', persistent)
       q-card
@@ -52,7 +52,7 @@
               q-select(v-model="assignedOrganization" :options="organizations" option-label="title")
               button Submit
         q-card-actions(align='right')
-          q-btn(flat, label='Cancel', color='primary', v-close-popup)
+          q-btn(flat, label='Cancel' color='primary' v-close-popup)
 
     q-dialog(v-model='confirmAddOrganization', persistent)
       q-card
@@ -68,9 +68,9 @@
               input(v-model="ogrn" placeholder="OGRN")
               button Submit
         q-card-actions(align='right')
-          q-btn(flat, label='Cancel', color='primary', v-close-popup)
+          q-btn(flat label='Cancel' color='primary' v-close-popup)
 
-    q-dialog(v-model='confirmUpdateOrganization', persistent)
+    q-dialog(v-model='confirmUpdateOrganization' persistent)
       q-card
         q-card-section.row.items-center
           span.q-ml-sm Edit Client
@@ -84,7 +84,7 @@
               input(v-model="editedOrganization.ogrn" placeholder="OGRN")
               button Submit
         q-card-actions(align='right')
-          q-btn(flat, label='Cancel', color='primary', v-close-popup)
+          q-btn(flat label='Cancel' color='primary' v-close-popup)
 </template>
 
 <script>
