@@ -1,8 +1,10 @@
 <template lang="pug">
   #navbar
-    img(src="/assets/logo.png" height="100")
-    div User: {{ current_user.email }}
-    a(rel="nofollow" data-method="delete" :href="logout_path") Log out
+    .row.items-center.justify-between
+      q-avatar
+        img(src="/assets/logo.png" height="100")
+      div User: {{ current_user.email }}
+      a(rel="nofollow" data-method="delete" :href="logout_path") Log out
 </template>
 
 <script>

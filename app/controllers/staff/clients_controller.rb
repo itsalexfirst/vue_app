@@ -1,10 +1,11 @@
 class Staff::ClientsController < ApplicationController
-  before_action :find_client, only: %i[show destroy edit update]
+  before_action :find_client, only: %i[show destroy edit update add_organization]
+  before_action :find_organization, only: %i[add_organization]
 
   def index
     @clients = Client.all
     #TODO query builder
-    render json: { clients: @clients }
+    render json: @clients
   end
 
   def show; end
@@ -28,7 +29,7 @@ class Staff::ClientsController < ApplicationController
 
   def update
     if @client.update(client_params)
-      render json: @client, status: :updated
+      render json: @client, status: :ok
     else
       render json: { errors: @client.errors.full_messages }, status: :unprocessable_entity
     end
@@ -38,10 +39,18 @@ class Staff::ClientsController < ApplicationController
     @client.destroy
   end
 
+  def add_organization
+    @client.organizations << @organization
+  end
+
   private
 
   def find_client
     @client = Client.find(params[:id])
+  end
+
+  def find_organization
+    @organization = Organization.find(params[:organization][:id])
   end
 
   def client_params

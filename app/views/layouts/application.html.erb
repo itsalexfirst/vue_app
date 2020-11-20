@@ -6,7 +6,6 @@
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag 'application', media: 'all' %>
-    <%= javascript_pack_tag dashboard %>
   </head>
 
   <body>
@@ -15,5 +14,6 @@
       <p class="alert"><%= alert %></p>
       <%= yield %>
     </div>
+    <%= javascript_pack_tag dashboard %>
   </body>
 </html>

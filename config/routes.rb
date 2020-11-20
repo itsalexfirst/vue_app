@@ -7,10 +7,16 @@ Rails.application.routes.draw do
 
   namespace :staff do
     resources :dashboard, only: %i[index]
-    resources :clients, shallow: true
+    resources :clients, shallow: true do
+      member do
+          post :add_organization
+        end
+    end
+    resources :organizations, shallow: true
   end
 
   namespace :client do
-    resources :index
+    resources :dashboard, only: %i[index]
+    resources :organizations, shallow: true, only: %i[index]
   end
 end
