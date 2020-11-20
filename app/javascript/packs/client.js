@@ -1,9 +1,9 @@
 require("@rails/ujs").start()
 
 import Vue from 'vue'
-import App from '../client/Client.vue'
-import '../client/api'
-import '../client/quasar'
+import App from 'Client/Client.vue'
+import 'Client/api'
+import 'Client/quasar'
 
 
 
