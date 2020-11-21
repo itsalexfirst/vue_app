@@ -6,6 +6,9 @@
           q-btn(dense, flat, round, icon='menu', @click='drawerLeft = !drawerLeft')
           q-toolbar-title
             navbar(:current_user="current_user", :logout_path="logout_path")
+        q-tabs(align="left")
+          q-route-tab(to="/clients" label="Clients")
+          q-route-tab(to="/organizations" label="Organizations")
       q-drawer(show-if-above, v-model='drawerLeft', side='left', bordered)
         p drawer_content
       q-page-container

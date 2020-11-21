@@ -1,14 +1,15 @@
 <template lang="pug">
   #dashboard
-    clients(:clients="clients"
-            @deleteClient="deleteClient"
-            @addClient="confirmAddClient = true"
-            @updateClient="updateClient"
-            @assignOrganization="assignOrganization")
-    organizations(:organizations="organizations"
-                  @deleteOrganization="deleteOrganization"
-                  @addOrganization="confirmAddOrganization = true"
-                  @updateOrganization="updateOrganization")
+    router-view(:clients="clients"
+                 @deleteClient="deleteClient"
+                 @addClient="confirmAddClient = true"
+                 @updateClient="updateClient"
+                 @assignOrganization="assignOrganization"
+
+                 :organizations="organizations"
+                 @deleteOrganization="deleteOrganization"
+                 @addOrganization="confirmAddOrganization = true"
+                 @updateOrganization="updateOrganization")
 
 
     q-dialog(v-model='confirmAddClient' persistent)
