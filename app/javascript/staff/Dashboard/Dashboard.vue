@@ -4,6 +4,7 @@
                  @deleteClient="deleteClient"
                  @addClient="confirmAddClient = true"
                  @updateClient="updateClient"
+
                  @assignOrganization="assignOrganization"
 
                  :organizations="organizations"
