@@ -7,16 +7,17 @@
 
     q-dialog(v-model='confirmAssignOrganization', persistent)
       q-card
-        q-card-section.row.items-center
-          span.q-ml-sm Assign Organization
+        q-bar(class="bg-primary text-white")
+          span Assign Organization
+        q-card-section
           #assign-organization
             #errors(v-if="errors.length")
               div(v-for="error in errors") {{ error }}
-            form(v-on:submit.prevent="onAssignOrganization")
+            .col-12
               q-select(v-model="assignedOrganization" :options="organizations" option-label="title")
-              button Submit
         q-card-actions(align='right')
-          q-btn(flat, label='Cancel' color='primary' v-close-popup)
+          q-btn(flat label='Assign' color='primary' @click="onAssignOrganization")
+          q-btn(flat label='Cancel' color='primary' v-close-popup)
 </template>
 
 <script>
@@ -36,10 +37,12 @@ export default {
       assignedOrganization: null
     }
   },
+
   methods: {
     assignOrganization (client) {
       this.editedIndex =this.clients.findIndex(x => x.id === client.id)
       this.editedClient = Object.assign({}, client)
+      console.log(client)
       this.confirmAssignOrganization = true
     },
     onAssignOrganization () {
@@ -62,8 +65,7 @@ export default {
     organizations: {
       type: Array,
       required: true
-    }
-    ,
+    },
     equipments: {
       type: Array,
       required: true

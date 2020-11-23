@@ -12,7 +12,7 @@
       q-btn(push label="New" icon="add" v-on:click="addEquipment")
       q-btn(push v-if="selected.length" label="Edit" icon="edit" @click="updateEquipment")
       q-btn(push v-if="selected.length" label="Delete" icon="delete" v-on:click="deleteEquipment")
-    router-view(@pushEquipment="pushEquipment")
+    router-view(:organizations="organizations" @pushEquipment="pushEquipment")
 
 </template>
 
@@ -68,6 +68,10 @@ export default {
     equipments: {
       type: Array,
       required: true
+    },
+    organizations: {
+      type: Array,
+      requiried: true
     }
   },
 }

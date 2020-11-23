@@ -14,6 +14,7 @@
               q-input(v-model="equipment.title" placeholder="Title")
               q-input(v-model="equipment.category" placeholder="Type")
               q-input(v-model="equipment.number" placeholder="S/N")
+              q-select(v-model="assignedOrganization" :options="organizations" option-label="title")
       q-card-actions(align='right')
         q-btn(flat label='Update' color='primary' @click="updateEquipment")
         q-btn(flat label='Cancel' color='primary' v-close-popup)
@@ -35,8 +36,17 @@ import loadingMixin from 'Staff/mixins/loaders'
     computed: {
       id () {
         return this.$route.params.id
+      },
+      assignedOrganization: {
+        get () {
+          return this.equipment.organization
+        },
+        set (organization) {
+          this.equipment.organization = organization
+        }
       }
     },
+
     created () {
       this.$api.equipments.show(this.id)
         .then(({ data }) => {
@@ -45,7 +55,8 @@ import loadingMixin from 'Staff/mixins/loaders'
           .catch(() => (this.error = true))
           .finally(() => (this.loading = false))
     },
-    methods : {
+
+    methods: {
       updateEquipment () {
         this.$api.equipments.update(this.equipment)
         .then(({ data }) => {
@@ -56,6 +67,13 @@ import loadingMixin from 'Staff/mixins/loaders'
       },
       pushToEquipments () {
         this.$router.push({ name: 'equipments' })
+      }
+    },
+
+    props: {
+      organizations: {
+        type: Array,
+        requiried: true
       }
     }
   }
