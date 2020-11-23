@@ -4,16 +4,16 @@
       title="Clients"
       :data="clients"
       :columns="columns"
+      row-key="fullname"
       selection="single"
-      :selected.sync="selected"
-      )
+      :selected.sync="selected")
+
     q-btn-group(push)
       q-btn(push label="New" icon="add" v-on:click="addClient")
-      q-btn(push v-if="selected.length" label="Edit" icon="edit" v-on:click="updateClient")
+      q-btn(push v-if="selected.length" label="Edit" icon="edit" @click="updateClient")
       q-btn(push v-if="selected.length" label="Delete" icon="delete" v-on:click="deleteClient")
       q-btn(push v-if="selected.length" label="Add organization" icon="home" v-on:click="assignOrganization")
-    p {{ selectedClient }}
-    router-view
+    router-view(@pushClient="pushClient")
 
 </template>
 
@@ -39,15 +39,29 @@ export default {
 
   methods: {
     deleteClient: function () {
-      this.$emit ('deleteClient', this.selectedClient)
+      let client = this.selectedClient
+      let index = this.clients.findIndex(x => x.id === client.id)
+      this.$api.clients.delete(client)
+      .then(() => {
+        this.clients.splice(index, 1)
+      })
+      .catch(() => (this.error = true))
+      .finally(() => (this.loading = false))
     },
     addClient: function () {
-      this.$emit ('addClient')
+      this.$router.push({ name: 'new' })
     },
     updateClient: function () {
       let id = this.selectedClient.id
       this.$router.push({ name: 'client', params: { id }})
-      //this.$emit ('updateClient', this.selectedClient)
+    },
+    pushClient: function (client) {
+      let index = this.clients.findIndex(x => x.id === client.id)
+      if (index !== -1) {
+        this.clients[index] = client
+      } else {
+        this.clients.push(client)
+      }
     },
     assignOrganization: function () {
       this.$emit ('assignOrganization', this.selectedClient)

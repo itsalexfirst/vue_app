@@ -15,7 +15,7 @@
               q-input(v-model="client.phone" placeholder="phone")
               q-input(v-model="client.email" placeholder="email")
       q-card-actions(align='right')
-        q-btn(flat label='Update' color='primary' @click="updateClient")
+        q-btn(flat label='Save' color='primary' @click="saveClient")
         q-btn(flat label='Cancel' color='primary' v-close-popup)
   </template>
 
@@ -37,17 +37,10 @@ import loadingMixin from 'Staff/mixins/loaders'
         return this.$route.params.id
       }
     },
-    created () {
-      this.$api.clients.show(this.id)
-        .then(({ data }) => {
-            this.client = data.client
-          })
-          .catch(() => (this.error = true))
-          .finally(() => (this.loading = false))
-    },
+
     methods : {
-      updateClient () {
-        this.$api.clients.update(this.client)
+      saveClient () {
+        this.$api.clients.create(this.client)
         .then(({ data }) => {
           this.$emit('pushClient', data.client)
         })

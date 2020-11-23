@@ -1,9 +1,6 @@
 <template lang="pug">
   #dashboard
     router-view(:clients="clients"
-                 @deleteClient="deleteClient"
-                 @addClient="confirmAddClient = true"
-                 @updateClient="updateClient"
 
                  @assignOrganization="assignOrganization"
 
@@ -11,37 +8,6 @@
                  @deleteOrganization="deleteOrganization"
                  @addOrganization="confirmAddOrganization = true"
                  @updateOrganization="updateOrganization")
-
-
-    q-dialog(v-model='confirmAddClient' persistent)
-      q-card
-        q-card-section.row.items-center
-          span.q-ml-sm Add Client
-          #new-client
-            #errors(v-if="errors.length")
-              div(v-for="error in errors") {{ error }}
-            form(v-on:submit.prevent="onSubmitClient")
-              input(v-model="fullname" placeholder="full name")
-              input(v-model="phone" placeholder="phone")
-              input(v-model="email" placeholder="email")
-              button Submit
-        q-card-actions(align='right')
-          q-btn(flat label='Cancel' color='primary' v-close-popup)
-
-    q-dialog(v-model='confirmUpdateClient' persistent)
-      q-card
-        q-card-section.row.items-center
-          span.q-ml-sm Edit Client
-          #update-client
-            #errors(v-if="errors.length")
-              div(v-for="error in errors") {{ error }}
-            form(v-on:submit.prevent="onSaveClient")
-              input(v-model="editedClient.fullname" placeholder="full name")
-              input(v-model="editedClient.phone" placeholder="phone")
-              input(v-model="editedClient.email" placeholder="email")
-              button Submit
-        q-card-actions(align='right')
-          q-btn(flat label='Cancel' color='primary' v-close-popup)
 
     q-dialog(v-model='confirmAssignOrganization', persistent)
       q-card
@@ -101,18 +67,6 @@ export default {
       errors:[],
       editedIndex: -1,
 
-      confirmAddClient: false,
-      fullname: "",
-      phone: "",
-      email: "",
-
-      confirmUpdateClient: false,
-      editedClient: {
-        fullname: "",
-        phone: "",
-        email: ""
-      },
-
       confirmAssignOrganization: false,
       assignedOrganization: null,
 
@@ -132,25 +86,6 @@ export default {
     }
   },
   methods: {
-    onSubmitClient: function () {
-      this.errors = [];
-      if (!this.fullname.match(/\w{5,}/)) {
-        this.errors.push("Enter name")
-      }
-      if (!this.phone.match(/\d+/)) {
-        this.errors.push("Enter phone")
-      }
-      if (!this.email.match(/^\S+@\S+\.\S+$/)) {
-        this.errors.push("invalid email")
-      }
-      if (!this.errors.length) {
-         this.$emit ('createClient', {
-          fullname: this.fullname,
-          phone: this.phone,
-          email: this.email
-        })
-      }
-    },
     onSubmitOrganization: function () {
       this.errors = [];
       if (!this.title.match(/\w{5,}/)) {
@@ -173,30 +108,6 @@ export default {
           ogrn: this.ogrn
         })
       }
-    },
-    deleteClient (client) {
-      this.$api.clients.delete(client)
-      .then(() => {
-        let index = this.clients.findIndex(x => x.id === client.id)
-        this.clients.splice(index, 1)
-      })
-      .catch(() => (this.error = true))
-      .finally(() => (this.loading = false))
-    },
-    updateClient (client) {
-      this.editedIndex =this.clients.findIndex(x => x.id === client.id)
-      this.editedClient = Object.assign({}, client)
-      this.confirmUpdateClient = true
-    },
-    onSaveClient () {
-      let client = Object.assign({}, this.editedClient)
-      this.$api.clients.update(client)
-      .then(({ data }) => {
-        this.clients.splice(this.editedIndex, 1)
-        this.clients.push(data)
-      })
-      .catch(() => (this.error = true))
-      .finally(() => (this.loading = false))
     },
     assignOrganization (client) {
       this.editedIndex =this.clients.findIndex(x => x.id === client.id)
