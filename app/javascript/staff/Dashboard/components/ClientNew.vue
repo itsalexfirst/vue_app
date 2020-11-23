@@ -5,7 +5,7 @@
     @hide="pushToClients")
     q-card
       q-bar(class="bg-primary text-white")
-        span Edit Client
+        span Create Client
       q-card-section
           #update-client
             #errors(v-if="errors.length")

@@ -19,6 +19,7 @@ const api = {
   },
   organizations: {
     index: () => axios.get('/staff/organizations'),
+    show: (id) => axios.get(`/staff/organizations/${id}`),
     create: (organization) => axios.post('/staff/organizations', { organization }),
     update: (organization) => axios.patch(`/staff/organizations/${organization.id}`, organization),
     delete: (organization) => axios.delete(`/staff/organizations/${organization.id}`, organization)

@@ -49,7 +49,7 @@ export default {
       .finally(() => (this.loading = false))
     },
     addClient: function () {
-      this.$router.push({ name: 'new' })
+      this.$router.push({ name: 'new_client' })
     },
     updateClient: function () {
       let id = this.selectedClient.id

@@ -1,13 +1,17 @@
 class Staff::OrganizationsController < ApplicationController
   before_action :find_organization, only: %i[show destroy edit update]
 
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+
   def index
     @organizations = Organization.all
     #TODO query builder
     render json: { organizations: @organizations }
   end
 
-  def show; end
+  def show
+    render json: @organization, status: :ok
+  end
 
   def new
     @organization = Organization.new
