@@ -3,17 +3,20 @@
     q-layout(view="hHh lpR fFf")
       q-header(elevated class="bg-primary text-white" height-hint="98")
         q-toolbar
-          q-btn(dense, flat, round, icon='menu', @click='drawerLeft = !drawerLeft')
+          q-btn(dense flat round icon='menu' @click='drawerLeft = !drawerLeft')
           q-toolbar-title
-            navbar(:current_user="current_user", :logout_path="logout_path")
+            navbar(:current_user="current_user"
+                   :logout_path="logout_path")
         q-tabs(align="left")
           q-route-tab(to="/clients" label="Clients")
           q-route-tab(to="/organizations" label="Organizations")
-      q-drawer(show-if-above, v-model='drawerLeft', side='left', bordered)
+          q-route-tab(to="/equipments" label="Equipments")
+      q-drawer(show-if-above v-model='drawerLeft' side='left' bordered)
         p drawer_content
       q-page-container
-        dashboard(:clients="clients", @createClient="createClient",
-          :organizations="organizations", @createOrganization="createOrganization")
+        dashboard(:clients="clients"
+                  :organizations="organizations"
+                  :equipments="equipments")
 </template>
 
 <script>
@@ -30,6 +33,7 @@ export default {
       logout_path: "/staffs/sign_out",
       clients: [],
       organizations: [],
+      equipments: [],
       loading: true,
       error: false,
       drawerLeft: false
@@ -49,25 +53,10 @@ export default {
           this.current_user = data.current_user
           this.clients = data.clients
           this.organizations = data.organizations
+          this.equipments = data.equipments
         })
         .catch(() => (this.error = true))
         .finally(() => (this.loading = false))
-    },
-    createClient (client) {
-      this.$api.clients.create(client)
-      .then(({ data }) => {
-        this.clients.push(data)
-      })
-      .catch(() => (this.error = true))
-      .finally(() => (this.loading = false))
-    },
-    createOrganization (organization) {
-      this.$api.organizations.create(organization)
-      .then(({ data }) => {
-        this.organizations.push(data)
-      })
-      .catch(() => (this.error = true))
-      .finally(() => (this.loading = false))
     }
   },
 

@@ -23,6 +23,13 @@ const api = {
     create: (organization) => axios.post('/staff/organizations', { organization }),
     update: (organization) => axios.patch(`/staff/organizations/${organization.id}`, organization),
     delete: (organization) => axios.delete(`/staff/organizations/${organization.id}`, organization)
+  },
+  equipments: {
+    index: () => axios.get('/staff/equipments'),
+    show: (id) => axios.get(`/staff/equipments/${id}`),
+    create: (equipment) => axios.post('/staff/equipments', { equipment }),
+    update: (equipment) => axios.patch(`/staff/equipments/${equipment.id}`, equipment),
+    delete: (equipment) => axios.delete(`/staff/equipments/${equipment.id}`, equipment)
   }
 }
 

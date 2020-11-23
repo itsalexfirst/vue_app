@@ -50,4 +50,8 @@ class Staff::OrganizationsController < ApplicationController
   def organization_params
     params.require(:organization).permit(:title, :category, :inn, :ogrn)
   end
+
+  def record_not_found(error)
+    render json: { errors: error.message }, status: :not_found
+  end
 end

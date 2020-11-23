@@ -14,6 +14,7 @@ Rails.application.routes.draw do
           end
       end
       resources :organizations, shallow: true
+      resources :equipments, shallow: true
     end
 
     namespace :client do

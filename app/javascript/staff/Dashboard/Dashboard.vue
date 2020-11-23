@@ -1,8 +1,9 @@
 <template lang="pug">
   #dashboard
     router-view(:clients="clients"
-                 :organizations="organizations"
-                 @assignOrganization="assignOrganization")
+                :organizations="organizations"
+                :equipments="equipments"
+                @assignOrganization="assignOrganization")
 
     q-dialog(v-model='confirmAssignOrganization', persistent)
       q-card
@@ -21,6 +22,7 @@
 <script>
 import Clients from './components/Clients.vue'
 import Organizations from './components/Organizations.vue'
+import Equipments from './components/Equipments.vue'
 
 export default {
   name: 'Dashboard',
@@ -61,11 +63,17 @@ export default {
       type: Array,
       required: true
     }
+    ,
+    equipments: {
+      type: Array,
+      required: true
+    }
   },
 
   components: {
     Clients,
-    Organizations
+    Organizations,
+    Equipments
   }
 }
 </script>

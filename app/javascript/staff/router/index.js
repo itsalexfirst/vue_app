@@ -10,6 +10,9 @@ import ClientNew from 'Staff/Dashboard/components/ClientNew'
 import Organizations from 'Staff/Dashboard/components/Organizations'
 import Organization from 'Staff/Dashboard/components/Organization'
 import OrganizationNew from 'Staff/Dashboard/components/OrganizationNew'
+import Equipments from 'Staff/Dashboard/components/Equipments'
+import Equipment from 'Staff/Dashboard/components/Equipment'
+import EquipmentNew from 'Staff/Dashboard/components/EquipmentNew'
 
 const router = new VueRouter ({
   mode: 'history',
@@ -26,6 +29,12 @@ const router = new VueRouter ({
       children: [
         { path: '/organizations/:id', component: Organization, name: 'organization'},
         { path: '/organizations/new', component: OrganizationNew, name: 'new_organization'}
+      ]
+    },
+    { path: '/equipments', component: Equipments, name: 'equipments', props: true,
+      children: [
+        { path: '/equipments/:id', component: Equipment, name: 'equipment'},
+        { path: '/equipments/new', component: EquipmentNew, name: 'new_equipment'}
       ]
     }
   ]

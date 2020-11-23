@@ -5,7 +5,8 @@ class Staff::DashboardController < ApplicationController
       current_user: current_staff,
       #TODO query builder for clients and organization
       clients: Client.all,
-      organizations: Organization.all
+      organizations: Organization.all,
+      equipments: Equipment.all
     }
   end
 end
