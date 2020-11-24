@@ -7,7 +7,7 @@
 
     q-dialog(v-model='confirmAssignOrganization', persistent)
       q-card
-        q-bar(class="bg-primary text-white")
+        q-bar.bg-primary.text-white
           span Assign Organization
         q-card-section
           #assign-organization

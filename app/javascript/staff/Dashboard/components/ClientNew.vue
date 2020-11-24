@@ -4,7 +4,7 @@
     persistent
     @hide="pushToClients")
     q-card
-      q-bar(class="bg-primary text-white")
+      q-bar.bg-primary.text-white
         span Create Client
       q-card-section
           #update-client

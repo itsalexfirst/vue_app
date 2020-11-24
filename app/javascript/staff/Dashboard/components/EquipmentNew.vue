@@ -4,7 +4,7 @@
     persistent
     @hide="pushToEquipments")
     q-card
-      q-bar(class="bg-primary text-white")
+      q-bar.bg-primary.text-white
         span Create Equipment
       q-card-section
           #update-equipment

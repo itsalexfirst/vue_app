@@ -4,7 +4,7 @@
     persistent
     @hide="pushToOrganizations")
     q-card
-      q-bar(class="bg-primary text-white")
+      q-bar.bg-primary.text-white
         span Edit Organization
       q-card-section
           #update-organization

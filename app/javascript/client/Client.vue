@@ -1,7 +1,7 @@
 <template lang="pug">
   #app
     q-layout(view="hHh lpR fFf")
-      q-header(elevated class="bg-primary text-white" height-hint="98")
+      q-header.bg-primary.text-white(elevated height-hint="98")
         q-toolbar
           q-btn(dense flat round icon='menu' @click='drawerLeft = !drawerLeft')
           q-toolbar-title
