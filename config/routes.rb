@@ -5,18 +5,23 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   root 'application#index'
 
-  namespace :staff do
-    resources :dashboard, only: %i[index]
-    resources :clients, shallow: true do
-      member do
-          post :add_organization
-        end
+  constraints ->(req) { req.format == :json } do
+    namespace :staff do
+      resources :dashboard, only: %i[index]
+      resources :clients, shallow: true do
+        member do
+            post :add_organization
+          end
+      end
+      resources :organizations, shallow: true
+      resources :equipments, shallow: true
     end
-    resources :organizations, shallow: true
+
+    namespace :client do
+      resources :dashboard, only: %i[index]
+      resources :organizations, shallow: true, only: %i[index]
+    end
   end
 
-  namespace :client do
-    resources :dashboard, only: %i[index]
-    resources :organizations, shallow: true, only: %i[index]
-  end
+  get '/*slug', to: 'application#index'
 end

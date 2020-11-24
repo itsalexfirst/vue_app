@@ -1,13 +1,17 @@
 class Staff::OrganizationsController < ApplicationController
   before_action :find_organization, only: %i[show destroy edit update]
 
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+
   def index
     @organizations = Organization.all
     #TODO query builder
     render json: { organizations: @organizations }
   end
 
-  def show; end
+  def show
+    render json: @organization, status: :ok
+  end
 
   def new
     @organization = Organization.new
@@ -45,5 +49,9 @@ class Staff::OrganizationsController < ApplicationController
 
   def organization_params
     params.require(:organization).permit(:title, :category, :inn, :ogrn)
+  end
+
+  def record_not_found(error)
+    render json: { errors: error.message }, status: :not_found
   end
 end

@@ -4,13 +4,15 @@
       title="Organizations"
       :data="organizations"
       :columns="columns"
+      row-key="title"
       selection="single"
-      :selected.sync="selected_organization"
-      )
+      :selected.sync="selected")
+
     q-btn-group(push)
       q-btn(push label="New" icon="add" v-on:click="addOrganization")
-      q-btn(push v-if="selected_organization.length" label="Edit" icon="edit" v-on:click="updateOrganization")
-      q-btn(push v-if="selected_organization.length" label="Delete" icon="delete" v-on:click="deleteOrganization")
+      q-btn(push v-if="selected.length" label="Edit" icon="edit" @click="updateOrganization")
+      q-btn(push v-if="selected.length" label="Delete" icon="delete" v-on:click="deleteOrganization")
+    router-view(@pushOrganization="pushOrganization")
 
 </template>
 
@@ -26,22 +28,40 @@ export default {
         { name: 'ogrn', field: 'ogrn', required: true, label: 'OGRN', align: 'left' }
       ],
       selected: [],
-      selected_organization: [],
       message: "Organizations"
+    }
+  },
+  computed: {
+    selectedOrganization: function () {
+      return this.selected[0]
     }
   },
 
   methods: {
     deleteOrganization: function () {
-      let organization = this.selected_organization[0];
-      this.$emit ('deleteOrganization', organization)
+      let organization = this.selectedOrganization
+      let index = this.organizations.findIndex(x => x.id === organization.id)
+      this.$api.organizations.delete(organization)
+      .then(() => {
+        this.organizations.splice(index, 1)
+      })
+      .catch(() => (this.error = true))
+      .finally(() => (this.loading = false))
     },
     addOrganization: function () {
-      this.$emit ('addOrganization')
+      this.$router.push({ name: 'new_organization' })
     },
     updateOrganization: function () {
-      let organization = this.selected_organization[0];
-      this.$emit ('updateOrganization', organization)
+      let id = this.selectedOrganization.id
+      this.$router.push({ name: 'organization', params: { id }})
+    },
+    pushOrganization: function (organization) {
+      let index = this.organizations.findIndex(x => x.id === organization.id)
+      if (index !== -1) {
+        this.organizations[index] = organization
+      } else {
+        this.organizations.push(organization)
+      }
     },
   },
 

@@ -2,13 +2,17 @@ class Staff::ClientsController < ApplicationController
   before_action :find_client, only: %i[show destroy edit update add_organization]
   before_action :find_organization, only: %i[add_organization]
 
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+
   def index
     @clients = Client.all
     #TODO query builder
     render json: @clients
   end
 
-  def show; end
+  def show
+    render json: @client, status: :ok
+  end
 
   def new
     @client = Client.new
@@ -60,4 +64,8 @@ class Staff::ClientsController < ApplicationController
   def default_password
     return 'password'
   end
+
+  def record_not_found(error)
+      render json: { errors: error.message }, status: :not_found
+    end
 end

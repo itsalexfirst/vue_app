@@ -4,14 +4,16 @@
       title="Clients"
       :data="clients"
       :columns="columns"
+      row-key="fullname"
       selection="single"
-      :selected.sync="selected_client"
-      )
+      :selected.sync="selected")
+
     q-btn-group(push)
       q-btn(push label="New" icon="add" v-on:click="addClient")
-      q-btn(push v-if="selected_client.length" label="Edit" icon="edit" v-on:click="updateClient")
-      q-btn(push v-if="selected_client.length" label="Delete" icon="delete" v-on:click="deleteClient")
-      q-btn(push v-if="selected_client.length" label="Add organization" icon="home" v-on:click="assignOrganization")
+      q-btn(push v-if="selected.length" label="Edit" icon="edit" @click="updateClient")
+      q-btn(push v-if="selected.length" label="Delete" icon="delete" v-on:click="deleteClient")
+      q-btn(push v-if="selected.length" label="Add organization" icon="home" v-on:click="assignOrganization")
+    router-view(@pushClient="pushClient")
 
 </template>
 
@@ -26,26 +28,43 @@ export default {
         { name: 'email', field: 'email', required: true, label: 'E-Mail', align: 'left' }
       ],
       selected: [],
-      selected_client: [],
       message: "Clients"
+    }
+  },
+  computed: {
+    selectedClient: function () {
+      return this.selected[0]
     }
   },
 
   methods: {
     deleteClient: function () {
-      let client = this.selected_client[0];
-      this.$emit ('deleteClient', client)
+      let client = this.selectedClient
+      let index = this.clients.findIndex(x => x.id === client.id)
+      this.$api.clients.delete(client)
+      .then(() => {
+        this.clients.splice(index, 1)
+      })
+      .catch(() => (this.error = true))
+      .finally(() => (this.loading = false))
     },
     addClient: function () {
-      this.$emit ('addClient')
+      this.$router.push({ name: 'new_client' })
     },
     updateClient: function () {
-      let client = this.selected_client[0];
-      this.$emit ('updateClient', client)
+      let id = this.selectedClient.id
+      this.$router.push({ name: 'client', params: { id }})
+    },
+    pushClient: function (client) {
+      let index = this.clients.findIndex(x => x.id === client.id)
+      if (index !== -1) {
+        this.clients[index] = client
+      } else {
+        this.clients.push(client)
+      }
     },
     assignOrganization: function () {
-      let client = this.selected_client[0];
-      this.$emit ('assignOrganization', client)
+      this.$emit ('assignOrganization', this.selectedClient)
     },
   },
 
@@ -60,7 +79,7 @@ export default {
 
 <style scoped>
 p {
-  font-size: 2em;
+  font-size: 1em;
   text-align: center;
 }
 </style>
