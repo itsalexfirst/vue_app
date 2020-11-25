@@ -6,6 +6,7 @@ import App from 'Staff/Staff.vue'
 import 'Staff/api'
 import 'Staff/quasar'
 import router from 'Staff/router'
+import 'Staff/socket'
 
 
 

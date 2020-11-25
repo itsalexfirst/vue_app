@@ -71,6 +71,14 @@ export default {
       required: true
     }
   },
+
+  subscriptions: {
+    OrganizationsChannel: {
+      received: (data) => {
+        console.log(data)
+      }
+    }
+  }
 }
 </script>
 
