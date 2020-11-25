@@ -37,6 +37,12 @@ export default {
     }
   },
 
+  mounted() {
+    this.$cable.subscribe({
+      channel: 'OrganizationsChannel'
+    });
+  },
+
   methods: {
     deleteOrganization: function () {
       let organization = this.selectedOrganization
@@ -58,6 +64,7 @@ export default {
     pushOrganization: function (organization) {
       let index = this.organizations.findIndex(x => x.id === organization.id)
       if (index !== -1) {
+        //TODO q-table don't update edited row
         this.organizations[index] = organization
       } else {
         this.organizations.push(organization)
@@ -72,13 +79,17 @@ export default {
     }
   },
 
-  subscriptions: {
+  channels: {
     OrganizationsChannel: {
-      received: (data) => {
-        console.log(data)
-      }
+      connected() {},
+      rejected() {},
+      received(data) {
+        console.log(data.organization)
+        this.pushOrganization(data.organization)
+      },
+      disconnected() {}
     }
-  }
+  },
 }
 </script>
 

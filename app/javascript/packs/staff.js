@@ -2,13 +2,15 @@
 require("@rails/ujs").start()
 
 import Vue from 'vue'
+import ActionCableVue from 'actioncable-vue'
 import App from 'Staff/Staff.vue'
 import 'Staff/api'
 import 'Staff/quasar'
 import router from 'Staff/router'
-import 'Staff/socket'
 
-
+Vue.use(ActionCableVue, {
+  connectImmediately: true
+})
 
 document.addEventListener('DOMContentLoaded', () => {
   new Vue({

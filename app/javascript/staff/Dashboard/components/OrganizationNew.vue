@@ -24,7 +24,7 @@
 import loadingMixin from 'Staff/mixins/loaders'
 
   export default {
-    name: 'Organization',
+    name: 'OrganizationNew',
     mixins: [loadingMixin],
     data: function () {
       return {
