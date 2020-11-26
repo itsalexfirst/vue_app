@@ -32,6 +32,9 @@ export default {
     }
   },
   computed: {
+    organizations() {
+      return this.$store.state.organizations
+    },
     selectedOrganization: function () {
       return this.selected[0]
     }
@@ -41,6 +44,7 @@ export default {
     this.$cable.subscribe({
       channel: 'OrganizationsChannel'
     });
+    this.$store.dispatch('getOrganizations')
   },
 
   methods: {
@@ -49,7 +53,9 @@ export default {
       let index = this.organizations.findIndex(x => x.id === organization.id)
       this.$api.organizations.delete(organization)
       .then(() => {
-        this.organizations.splice(index, 1)
+        let organizations = this.organizations
+        organizations.splice(index, 1)
+        this.$store.commit('ORGANIZATION_TABLE', organizations)
       })
       .catch(() => (this.error = true))
       .finally(() => (this.loading = false))
@@ -63,21 +69,23 @@ export default {
     },
     pushOrganization: function (organization) {
       let index = this.organizations.findIndex(x => x.id === organization.id)
+      let organizations = this.organizations
       if (index !== -1) {
-        //TODO q-table don't update edited row
-        this.organizations[index] = organization
+        //TODO q-table don't update edited row with (organizations[index] = organization) due https://vuejs.org/v2/guide/reactivity.html#Change-Detection-Caveats
+        organizations.splice(index, 1, organization)
       } else {
-        this.organizations.push(organization)
+        organizations.push(organization)
       }
+      this.$store.commit('ORGANIZATION_TABLE', organizations)
     },
   },
 
-  props: {
-    organizations: {
-      type: Array,
-      required: true
-    }
-  },
+  // props: {
+  //   organizations: {
+  //     type: Array,
+  //     required: true
+  //   }
+  // },
 
   channels: {
     OrganizationsChannel: {

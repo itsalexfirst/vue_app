@@ -42,9 +42,9 @@ import loadingMixin from 'Staff/mixins/loaders'
     methods : {
       saveOrganization () {
         this.$api.organizations.create(this.organization)
-        .then(({ data }) => {
-          this.$emit('pushOrganization', data.organization)
-        })
+        // .then(({ data }) => {
+        //   this.$emit('pushOrganization', data.organization)
+        // })
         .catch(() => (this.error = true))
         .finally(() => (this.loading = false))
       },

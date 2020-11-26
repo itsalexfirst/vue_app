@@ -49,9 +49,9 @@ import loadingMixin from 'Staff/mixins/loaders'
     methods : {
       updateOrganization () {
         this.$api.organizations.update(this.organization)
-        .then(({ data }) => {
-          this.$emit('pushOrganization', data.organization)
-        })
+        // .then(({ data }) => {
+        //   this.$emit('pushOrganization', data.organization)
+        // })
         .catch(() => (this.error = true))
         .finally(() => (this.loading = false))
       },
