@@ -5,8 +5,13 @@
       :data="organizations"
       :columns="columns"
       row-key="title"
+      :filter="filter"
       selection="single"
       :selected.sync="selected")
+      template(v-slot:top-right)
+        q-input(v-model='filter' placeholder='Search')
+          template(v-slot:append)
+            q-icon(name='search')
 
     q-btn-group(push)
       q-btn(push label="New" icon="add" v-on:click="addOrganization")
@@ -22,12 +27,13 @@ export default {
   data: function () {
     return {
       columns: [
-        { name: 'title', field: 'title', required: true, label: 'Title', align: 'left' },
-        { name: 'category', field: 'category', required: true, label: 'Type', align: 'left' },
-        { name: 'inn', field: 'inn', required: true, label: 'INN', align: 'left' },
-        { name: 'ogrn', field: 'ogrn', required: true, label: 'OGRN', align: 'left' }
+        { name: 'title', field: 'title', required: true, label: 'Title', align: 'left', sortable: true },
+        { name: 'category', field: 'category', required: true, label: 'Type', align: 'left', sortable: true },
+        { name: 'inn', field: 'inn', required: true, label: 'INN', align: 'left', sortable: true },
+        { name: 'ogrn', field: 'ogrn', required: true, label: 'OGRN', align: 'left', sortable: true }
       ],
       selected: [],
+      filter: "",
       message: "Organizations"
     }
   },
