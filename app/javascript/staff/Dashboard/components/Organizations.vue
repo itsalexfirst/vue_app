@@ -86,13 +86,6 @@ export default {
     },
   },
 
-  // props: {
-  //   organizations: {
-  //     type: Array,
-  //     required: true
-  //   }
-  // },
-
   channels: {
     OrganizationsChannel: {
       connected() {},
@@ -100,6 +93,7 @@ export default {
       received(data) {
         console.log(data.organization)
         this.pushOrganization(data.organization)
+        //TODO https://github.com/itsalexfirst/vue_app/pull/5#discussion_r531571575
       },
       disconnected() {}
     }
