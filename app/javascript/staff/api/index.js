@@ -4,6 +4,7 @@ import axios from 'axios'
 let token = document.getElementsByName('csrf-token')[0].getAttribute('content')
 axios.defaults.headers.common['X-CSRF-Token'] = token
 axios.defaults.headers.common['Accept'] = 'application/json'
+axios.defaults.baseURL = process.env.API_BASE_URL
 
 const api = {
   dashboard: {

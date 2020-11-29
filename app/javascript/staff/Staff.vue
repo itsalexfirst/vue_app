@@ -41,6 +41,7 @@ export default {
   },
 
   created () {
+    console.log(process.env.API_BASE_URL)
     this.fetchData ()
     this.loading = false
   },
