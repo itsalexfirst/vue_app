@@ -21,20 +21,20 @@ const router = new VueRouter ({
     { path: '/dashboard', component: Dashboard },
     { path: '/clients', component: Clients, name: 'clients', props: true,
       children: [
-        { path: '/clients/:id', component: Client, name: 'client'},
-        { path: '/clients/new', component: ClientNew, name: 'new_client'}
+        { path: '/clients/new', component: ClientNew, name: 'new_client'},
+        { path: '/clients/:id', component: Client, name: 'client'}
       ]
     },
     { path: '/organizations', component: Organizations, name: 'organizations', props: true,
       children: [
-        { path: '/organizations/:id', component: Organization, name: 'organization'},
-        { path: '/organizations/new', component: OrganizationNew, name: 'new_organization'}
+        { path: '/organizations/new', component: OrganizationNew, name: 'new_organization'},
+        { path: '/organizations/:id', component: Organization, name: 'organization'}
       ]
     },
     { path: '/equipments', component: Equipments, name: 'equipments', props: true,
       children: [
-        { path: '/equipments/:id', component: Equipment, name: 'equipment'},
-        { path: '/equipments/new', component: EquipmentNew, name: 'new_equipment'}
+        { path: '/equipments/new', component: EquipmentNew, name: 'new_equipment'},
+        { path: '/equipments/:id', component: Equipment, name: 'equipment'}
       ]
     }
   ]
