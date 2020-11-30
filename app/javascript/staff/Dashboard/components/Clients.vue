@@ -9,11 +9,11 @@
       :selected.sync="selected")
 
     q-btn-group(push)
-      q-btn(push label="New" icon="add" v-on:click="addClient")
+      q-btn(push label="New" icon="add" @click="addClient")
       q-btn(push v-if="selected.length" label="Edit" icon="edit" @click="updateClient")
-      q-btn(push v-if="selected.length" label="Delete" icon="delete" v-on:click="deleteClient")
-      q-btn(push v-if="selected.length" label="Add organization" icon="home" v-on:click="assignOrganization")
-    router-view(@pushClient="pushClient")
+      q-btn(push v-if="selected.length" label="Delete" icon="delete" @click="deleteClient")
+      q-btn(push v-if="selected.length" label="Add organization" icon="home" @click="assignOrganization")
+    router-view(@push-client="pushClient")
 
 </template>
 
@@ -28,52 +28,56 @@ export default {
         { name: 'email', field: 'email', required: true, label: 'E-Mail', align: 'left' }
       ],
       selected: [],
-      message: "Clients"
+      message: 'Clients'
     }
   },
   computed: {
+    clients () {
+      return this.$store.state.clients
+    },
     selectedClient: function () {
       return this.selected[0]
     }
   },
 
+  mounted () {
+    this.$store.dispatch('getClients')
+  },
+
   methods: {
     deleteClient: function () {
-      let client = this.selectedClient
-      let index = this.clients.findIndex(x => x.id === client.id)
+      const client = this.selectedClient
+      const index = this.clients.findIndex(x => x.id === client.id)
       this.$api.clients.delete(client)
-      .then(() => {
-        this.clients.splice(index, 1)
-      })
-      .catch(() => (this.error = true))
-      .finally(() => (this.loading = false))
+        .then(() => {
+          const clients = this.clients
+          clients.splice(index, 1)
+          this.$store.commit('CLIENT_TABLE', clients)
+        })
+        .catch(() => (this.error = true))
+        .finally(() => (this.loading = false))
     },
     addClient: function () {
       this.$router.push({ name: 'new_client' })
     },
     updateClient: function () {
-      let id = this.selectedClient.id
-      this.$router.push({ name: 'client', params: { id }})
+      const id = this.selectedClient.id
+      this.$router.push({ name: 'client', params: { id } })
     },
     pushClient: function (client) {
-      let index = this.clients.findIndex(x => x.id === client.id)
+      const index = this.clients.findIndex(x => x.id === client.id)
+      const clients = this.clients
       if (index !== -1) {
-        this.clients[index] = client
+        clients.splice(index, 1, client)
       } else {
-        this.clients.push(client)
+        clients.push(client)
       }
+      this.$store.commit('CLIENT_TABLE', clients)
     },
     assignOrganization: function () {
-      this.$emit ('assignOrganization', this.selectedClient)
-    },
-  },
-
-  props: {
-    clients: {
-      type: Array,
-      required: true
+      this.$emit('assign-organization', this.selectedClient)
     }
-  },
+  }
 }
 </script>
 

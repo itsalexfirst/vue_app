@@ -3,10 +3,10 @@
     q-layout(view="hHh lpR fFf")
       q-header.bg-primary.text-white(elevated height-hint="98")
         q-toolbar
-          q-btn(dense flat round icon='menu' @click='drawerLeft = !drawerLeft')
+          q-btn(dense flat round icon="menu" @click="drawerLeft = !drawerLeft")
           q-toolbar-title
             navbar(:current_user="current_user", :logout_path="logout_path")
-      q-drawer(show-if-above v-model='drawerLeft' side='left' bordered)
+      q-drawer(show-if-above v-model="drawerLeft" side="left" bordered)
         p drawer_content
       q-page-container
         dashboard(:organizations="organizations")
@@ -21,9 +21,9 @@ export default {
   name: 'Client',
   data: function () {
     return {
-      message: "Hello client",
+      message: 'Hello client',
       current_user: {},
-      logout_path: "/clients/sign_out",
+      logout_path: '/clients/sign_out',
       organizations: [],
       loading: true,
       error: false,
@@ -32,7 +32,7 @@ export default {
   },
 
   created () {
-    this.fetchData ()
+    this.fetchData()
     this.loading = false
   },
 

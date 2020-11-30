@@ -10,7 +10,7 @@ export default {
   name: 'Dashboard',
   data: function () {
     return {
-      message: "Client Dashboard"
+      message: 'Client Dashboard'
     }
   },
 

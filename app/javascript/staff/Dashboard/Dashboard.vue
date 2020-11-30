@@ -3,9 +3,9 @@
     router-view(:clients="clients"
                 :organizations="organizations"
                 :equipments="equipments"
-                @assignOrganization="assignOrganization")
+                @assign-organization="assignOrganization")
 
-    q-dialog(v-model='confirmAssignOrganization', persistent)
+    q-dialog(v-model="confirmAssignOrganization", persistent)
       q-card
         q-bar.bg-primary.text-white
           span Assign Organization
@@ -15,9 +15,9 @@
               div(v-for="error in errors") {{ error }}
             .col-12
               q-select(v-model="assignedOrganization" :options="organizations" option-label="title")
-        q-card-actions(align='right')
-          q-btn(flat label='Assign' color='primary' @click="onAssignOrganization")
-          q-btn(flat label='Cancel' color='primary' v-close-popup)
+        q-card-actions(align="right")
+          q-btn(flat label="Assign" color="primary" @click="onAssignOrganization")
+          q-btn(flat label="Cancel" color="primary" v-close-popup)
 </template>
 
 <script>
@@ -29,8 +29,8 @@ export default {
   name: 'Dashboard',
   data: function () {
     return {
-      message: "Dashboard",
-      errors:[],
+      message: 'Dashboard',
+      errors: [],
       editedIndex: -1,
 
       confirmAssignOrganization: false,
@@ -40,21 +40,21 @@ export default {
 
   methods: {
     assignOrganization (client) {
-      this.editedIndex =this.clients.findIndex(x => x.id === client.id)
+      this.editedIndex = this.clients.findIndex(x => x.id === client.id)
       this.editedClient = Object.assign({}, client)
       console.log(client)
       this.confirmAssignOrganization = true
     },
     onAssignOrganization () {
-      let client = Object.assign({}, this.editedClient)
-      let organization = this.assignedOrganization
+      const client = Object.assign({}, this.editedClient)
+      const organization = this.assignedOrganization
       this.$api.clients.add_organization(client, organization)
-      .then(({ data }) => {
-        this.clients.push(organization)
-      })
-      .catch(() => (this.error = true))
-      .finally(() => (this.loading = false))
-    },
+        // .then(({ data }) => {
+        //   this.clients.push(data.client)
+        // })
+        .catch(() => (this.error = true))
+        .finally(() => (this.loading = false))
+    }
   },
 
   props: {

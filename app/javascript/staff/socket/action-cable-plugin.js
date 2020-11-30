@@ -1,3 +1,4 @@
+/* eslint-disable */
 module.exports = {
   install: function(Vue, cable) {
     Vue.mixin({

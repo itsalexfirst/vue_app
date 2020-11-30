@@ -12,7 +12,7 @@ export default {
   name: 'Navbar',
   data: function () {
     return {
-      message: "Navbar"
+      message: 'Navbar'
     }
   },
   props: {

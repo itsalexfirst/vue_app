@@ -18,7 +18,7 @@ export default {
         { name: 'inn', field: 'inn', required: true, label: 'INN', align: 'left' },
         { name: 'ogrn', field: 'ogrn', required: true, label: 'OGRN', align: 'left' }
       ],
-      message: "Client Organizations"
+      message: 'Client Organizations'
     }
   },
 
@@ -27,7 +27,7 @@ export default {
       type: Array,
       required: true
     }
-  },
+  }
 }
 </script>
 
