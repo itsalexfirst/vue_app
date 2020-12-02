@@ -9,10 +9,10 @@
       :selected.sync="selected")
 
     q-btn-group(push)
-      q-btn(push label="New" icon="add" v-on:click="addEquipment")
+      q-btn(push label="New" icon="add" @click="addEquipment")
       q-btn(push v-if="selected.length" label="Edit" icon="edit" @click="updateEquipment")
-      q-btn(push v-if="selected.length" label="Delete" icon="delete" v-on:click="deleteEquipment")
-    router-view(:organizations="organizations" @pushEquipment="pushEquipment")
+      q-btn(push v-if="selected.length" label="Delete" icon="delete" @click="deleteEquipment")
+    router-view(:organizations="organizations" @push-equipment="pushEquipment")
 
 </template>
 
@@ -27,53 +27,60 @@ export default {
         { name: 'number', field: 'number', required: true, label: 'S/N', align: 'left' }
       ],
       selected: [],
-      message: "Equipments"
+      message: 'Equipments'
     }
   },
   computed: {
+    equipments () {
+      return this.$store.state.equipments
+    },
     selectedEquipment: function () {
       return this.selected[0]
     }
   },
 
+  mounted () {
+    this.$store.dispatch('getEqipments')
+  },
+
   methods: {
     deleteEquipment: function () {
-      let equipment = this.selectedEquipment
-      let index = this.equipments.findIndex(x => x.id === equipment.id)
+      const equipment = this.selectedEquipment
+      const index = this.equipments.findIndex(x => x.id === equipment.id)
       this.$api.equipments.delete(equipment)
-      .then(() => {
-        this.equipments.splice(index, 1)
-      })
-      .catch(() => (this.error = true))
-      .finally(() => (this.loading = false))
+        .then(() => {
+          const equipments = this.equipments
+          equipments.splice(index, 1)
+          this.$store.commit('EQUIPMENT_TABLE', equipments)
+        })
+        .catch(() => (this.error = true))
+        .finally(() => (this.loading = false))
     },
     addEquipment: function () {
       this.$router.push({ name: 'new_equipment' })
     },
     updateEquipment: function () {
-      let id = this.selectedEquipment.id
-      this.$router.push({ name: 'equipment', params: { id }})
+      const id = this.selectedEquipment.id
+      this.$router.push({ name: 'equipment', params: { id } })
     },
     pushEquipment: function (equipment) {
-      let index = this.equipments.findIndex(x => x.id === equipment.id)
+      const index = this.equipments.findIndex(x => x.id === equipment.id)
+      const equipments = this.equipments
       if (index !== -1) {
-        this.equipments[index] = equipment
+        equipments.splice(index, 1, equipment)
       } else {
-        this.equipments.push(equipment)
+        equipments.push(equipment)
       }
-    },
+      this.$store.commit('EQUIPMENT_TABLE', equipments)
+    }
   },
 
   props: {
-    equipments: {
-      type: Array,
-      required: true
-    },
     organizations: {
       type: Array,
       requiried: true
     }
-  },
+  }
 }
 </script>
 

@@ -3,7 +3,7 @@
     q-layout(view="hHh lpR fFf")
       q-header.bg-primary.text-white(elevated height-hint="98")
         q-toolbar
-          q-btn(dense flat round icon='menu' @click='drawerLeft = !drawerLeft')
+          q-btn(dense flat round icon="menu" @click="drawerLeft = !drawerLeft")
           q-toolbar-title
             navbar(:current_user="current_user"
                    :logout_path="logout_path")
@@ -11,7 +11,7 @@
           q-route-tab(to="/clients" label="Clients")
           q-route-tab(to="/organizations" label="Organizations")
           q-route-tab(to="/equipments" label="Equipments")
-      q-drawer(show-if-above v-model='drawerLeft' side='left' bordered)
+      q-drawer(show-if-above v-model="drawerLeft" side="left" bordered)
         p drawer_content
       q-page-container
         dashboard(:clients="clients"
@@ -28,9 +28,9 @@ export default {
   name: 'Staff',
   data: function () {
     return {
-      message: "Hello staff",
+      message: 'Hello staff',
       current_user: {},
-      logout_path: "/staffs/sign_out",
+      logout_path: '/staffs/sign_out',
       clients: [],
       organizations: [],
       equipments: [],
@@ -41,7 +41,8 @@ export default {
   },
 
   created () {
-    this.fetchData ()
+    console.log(process.env.API_BASE_URL)
+    this.fetchData()
     this.loading = false
   },
 

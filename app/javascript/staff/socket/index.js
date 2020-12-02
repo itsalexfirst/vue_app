@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import ActionCable from 'actioncable'
+import actionCablePlugin from './action-cable-plugin'
 
 const cable = ActionCable.createConsumer()
-import actionCablePlugin from './action-cable-plugin'
 
 Vue.use(actionCablePlugin, cable)
